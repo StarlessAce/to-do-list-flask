@@ -1,0 +1,90 @@
+.container {
+  margin: auto;
+  width: 100%;
+  padding: 10px;
+}
+
+.main-container
+{
+  margin: auto;
+  margin-top: 100px;
+  width: 70%;
+  padding:50px;
+  padding-top: 2%;
+
+}
+
+.lista {
+  margin: left right;
+  padding: 20px 0px 20px 0px;
+}
+
+.list-el {
+  padding: 5px;
+}
+
+.btn-del {
+  margin-left: 50px;
+  float: right;
+}
+
+.btn-outline-dark
+{
+  margin-left: 5px;
+  padding: 10px;
+  float: right;
+}
+
+.delete-btn
+{
+  margin-left: 5px;
+  padding: 10px;
+  float: right;
+}
+
+.done-btn
+{
+  margin-left: 5px;
+  padding: 10px;
+  float: right;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.list-pointer
+{
+  cursor: pointer;
+}
+
+.nav-item
+{
+    float: right;
+}
+
+.task-description
+{
+    opacity: 0.4;
+    font-size: 12px;
+}
+
+.progress-column
+{
+    width:50%;
+}
+
+.task-column
+{
+    width: 20%;
+}
+
+.task-addition
+{
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+.finished-task-text
+{
+
+}

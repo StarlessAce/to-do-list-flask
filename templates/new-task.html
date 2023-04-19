@@ -11,8 +11,16 @@
                     <input type="text" name="title" class="form-control" placeholder="Your task" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3">
-                  <span class="input-group-text">Add description</span>
-                  <input type="text" name="description" class="form-control" placeholder="Description" aria-label="Username" aria-describedby="basic-addon1">
+                    <span class="input-group-text">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" onchange="changeState()">
+                            <label class="form-check-label" for="flexCheckChecked" id="description-item">
+                                Hide description
+                            </label>
+                        </div>
+                    </span>
+
+                    <input type="text" name="description" class="form-control" id="description-text" placeholder="Description" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Priority</span>

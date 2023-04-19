@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Flask, render_template, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.declarative import declarative_base
@@ -6,7 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 # from flask_ckeditor import CKEditor
 # from datetime import date
 # from werkzeug.security import generate_password_hash, check_password_hash
-# from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship
 # from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 # from flask_gravatar import Gravatar
 # from functools import wraps
@@ -34,6 +36,17 @@ class Task(db.Model, Base):
     priority = db.Column(db.Integer, nullable=False)
     deadline = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(20), nullable=False)
+
+
+class FinishedTasks(db.Model, Base):
+    __tablename__ = 'FinishedTasks'
+    id = db.Column(db.Integer, primary_key=True)
+    finish_date = db.Column(db.String(50), nullable=False)
+    ontime = db.Column(db.Boolean, nullable=False)
+    task_id = db.Column(db.Integer, db.ForeignKey('Tasks.id'))
+    task = relationship('Task', backref='finished_task')
+    text = db.Column(db.String(50), nullable=False)
+
 
 with app.app_context():
     db.create_all()
@@ -65,10 +78,41 @@ def delete_task(task_id):
 
 @app.route("/done/<int:task_id>")
 def move_to_done(task_id):
+    costam = Task.query.get(task_id)
+    print(costam.text)
+    now = datetime.datetime.now()
+    date_time = now.strftime("%m/%d/%Y")
+    finished_task = FinishedTasks(
+        finish_date=date_time,
+        ontime=True,
+        task=costam,
+        text = costam.text
 
+
+
+    )
+    db.session.add(finished_task)
+    db.session.commit()
     done_list.append(Task.query.get(task_id))
-    delete_task(task_id)
+    # delete_task(task_id)
+
     return redirect(url_for('get_all_tasks'))
+
+@app.route("/new-task", methods=['GET', 'POST'])
+def new_task():
+    if request.method == 'POST':
+        task = Task(
+            text=request.form['title'],
+            description=request.form['description'],
+            priority=request.form['priority'],
+            deadline=request.form['deadline'],
+            status='not started'
+        )
+        db.session.add(task)
+        db.session.commit()
+        tasks = Task.query.all()
+        return redirect(url_for('get_all_tasks'))
+    return render_template("new-task.html")
 
 
 

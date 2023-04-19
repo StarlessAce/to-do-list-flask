@@ -1,21 +1,11 @@
 {% include 'header.html' %}
 
     <div class="main-container">
-        <div class="task-addition">
-
-            <h2>Type your task below:</h2>
-            <br>
-            <form action="" method="post">
-                <div class="input-group mb-3">
-                <input class="form-control" type="text" placeholder="Put your task here" aria-label="default input example" name="task">
-                    <div class="input-group-append">
-                        <input class="btn btn-dark" type="submit" value="Add task">
-                    </div>
-                </div>
-            </form>
-
+        <div class="button-area">
+            <a href="{{url_for('new_task')}}" class="btn btn-outline-dark align-middle" role="button">New task</a>
         </div>
 
+        <br>
         <h2>Your current tasks:</h2>
             {% if tasks %}
             <div class="lista">
@@ -27,6 +17,7 @@
                               <th class="task-column" scope="col">Task</th>
                               <th scope="col">Status</th>
                               <th class="progress-column" scope="col">Progress</th>
+                              <th scope="col">Priority</th>
                               <th scope="col">Deadline</th>
                               <th scope="col"> </th>
                             </tr>
@@ -47,17 +38,17 @@
                                     <td>{{ task.status }}</td>
                                     <td>
                                         <div class="progress" style="height:25px;">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                                                70% Complete (success)
+                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                                                60% Complete
                                             </div>
                                         </div>
                                     </td>
-                                     <td>{{ task.deadline }}</td>
-
-
-                                  <td>  <a href='{{url_for("delete_task", task_id=task.id)}}' class="btn btn-outline-danger delete-btn"  role="button">Delete</a>
+                                    <td>{{ task.priority }}</td>
+                                    <td>{{ task.deadline }}</td>
+                                    <td>
+                                        <a href='{{url_for("delete_task", task_id=task.id)}}' class="btn btn-outline-danger delete-btn"  role="button">Delete</a>
                                         <a href='{{url_for("move_to_done", task_id=task.id)}}' class="btn btn-outline-success done-btn" role="button">Done</a>
-                                  </td>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             <tr class="table-dark list-endline">

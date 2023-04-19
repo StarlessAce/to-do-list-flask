@@ -28,11 +28,9 @@
   float: right;
 }
 
-.btn-outline-dark
+.button-area
 {
-  margin-left: 5px;
-  padding: 10px;
-  float: right;
+  padding: 10px 0px 10px 0px;
 }
 
 .delete-btn
@@ -53,6 +51,10 @@ a {
   text-decoration: none !important;
 }
 
+.input-group-append {
+  cursor: pointer;
+}
+
 .list-pointer
 {
   cursor: pointer;
@@ -71,7 +73,12 @@ a {
 
 .progress-column
 {
-    width:50%;
+    width:40%;
+}
+
+.plus-in-plus-button
+{
+    padding:0px 10px 0px 0px;
 }
 
 .task-column
@@ -87,4 +94,13 @@ a {
 .finished-task-text
 {
 
+}
+
+.task-container
+{
+  margin: auto;
+  margin-top: 100px;
+  width: 50%;
+  padding:50px;
+  padding-top: 2%;
 }

@@ -1,7 +1,80 @@
 {% include 'header.html' %}
 <div class="main-container">
-  <h1>tutej</h1>
+    <div class="task-main-info">
+        <h1>{{ task.text }}</h1>
+        {% if task.status =='Not started' %}
+        <span class="badge bg-primary rounded-pill float-right">{{ task.status }}</span>
+        {% elif task.status =='In progress' %}
+        <span class="badge bg-warning rounded-pill float-right">{{ task.status }}</span>
+        {% elif task.status =='Finished' %}
+        <span class="badge bg-success rounded-pill float-right">{{ task.status }}</span>
+        {% elif task.status =='Waiting for approval' %}
+        <span class="badge badge-success badge-outlined rounded-pill float-right">{{ task.status }}</span>
+        {% endif %}
+        <span class="badge bg-primary rounded-pill float-right">Due date: {{ task.deadline }}</span>
+        <div class="task-description-info"><h4>{{ task.description }}</h4></div>
+
+        {% if not subtasks %}
+        {% if finished_subtasks %}
+        <div class="task-finished-task">
+            <span class="task-finished-info">All subtasks has been finished. Do you want to mark the entire task as finished?</span>
+            <a href='#' class="btn btn-outline-success done-btn btn-sm" role="button">Done</a>
+        </div>
+        {% endif %}
+    {% endif %}
+    </div>
+    <div class="task-progress-bar">
+        <div class="progress" style="height:25px;">
+            <div class="progress-bar bg-success " role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{percentage}}%">
+                {{percentage}}% Complete
+            </div>
+        </div>
+    </div>
+
+  <form action="" method="post" class="subtask-form">
+        <h4>Add another subtask</h4>
+        <div class="input-group mb-3">
+            <input class="form-control" type="text" placeholder="Put your next subtask here" name="task">
+            <div class="input-group-append">
+                <input class="btn btn-dark" type="submit" value="Add task">
+            </div>
+        </div>
+  </form>
+
+
+  {% if subtasks %}
+    <h4>Your subtasks</h4>
+    <ol class="list-group list-group-numbered">
+        {% for subtask in subtasks %}
+        <li class="list-group-item">
+            <span class="mt-5">{{ subtask.text }}</span>
+            <a href='{{url_for("delete_subtask", subtask_id=subtask.id, task_id=task.id)}}' class="btn btn-danger delete-btn btn-sm"  role="button">Delete</a>
+            {% if subtask.status !='In progress' %}
+            <a href='{{url_for("mark_as_progress", subtask_id=subtask.id, task_id=task.id)}}' class="btn btn-primary done-btn btn-sm" role="button">Mark as 'In progress'</a>
+            {% else %}
+            <a href='{{url_for("move_subtask_to_done", subtask_id=subtask.id, task_id=task.id)}}' class="btn btn-success done-btn btn-sm" role="button">Done</a>
+            <a href='{{url_for("mark_as_progress", subtask_id=subtask.id, task_id=task.id)}}' class="btn btn-warning in-progress-btn btn-sm" role="button">In progress</a>
+            {% endif %}
+        </li>
+        {%endfor %}
+    </ol>
+  {% endif %}
+    {% if finished_subtasks %}
+    <h4>Finished subtasks</h4>
+    <ol class="list-group list-group-numbered">
+        {% for subtask in finished_subtasks %}
+        <li class="list-group-item">
+            <span class="mt-5">{{ subtask.text }}</span>
+        </li>
+        {%endfor %}
+    </ol>
+  {% endif %}
+
 
 </div>
+
+
+
+
 
 {% include "footer.html" %}

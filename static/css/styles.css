@@ -22,7 +22,27 @@
 .list-el {
   padding: 5px;
 }
-
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 6px;
+  border: 1px solid transparent;
+  min-width: 10px;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-radius: 99999px
+}
+.badge.badge-outlined {
+  background-color: transparent
+}
+.badge.badge-outlined.badge-success {
+  border-color: #64DD17;
+  color: #64DD17
+}
 .btn-del {
   margin-left: 50px;
   float: right;
@@ -54,6 +74,13 @@ a {
 .input-group-append {
   cursor: pointer;
 }
+.in-progress-btn
+{
+  margin-left: 5px;
+  padding: 10px;
+  float: right;
+  width: 88px;
+}
 
 .list-pointer
 {
@@ -70,6 +97,19 @@ a {
     opacity: 0.4;
     font-size: 12px;
 }
+.task-main-info
+{
+   padding: 10px 0px 10px 0px;
+}
+.task-description-info
+{
+   padding: 20px 0px 20px 0px;
+}
+.task-progress-bar
+{
+   padding: 20px 0px 40px 0px;
+}
+
 
 .progress-column
 {
@@ -81,6 +121,12 @@ a {
     padding:0px 10px 0px 0px;
 }
 
+.subtask-form
+{
+    padding:0px 0px 20px 0px;
+
+}
+
 .task-column
 {
     width: 20%;
@@ -90,6 +136,15 @@ a {
 {
     margin-top: 10px;
     margin-bottom: 40px;
+}
+.task-finished-info
+{
+    font-size: 20px;
+    font-weight: bold;
+}
+.task-finished-task
+{
+    padding: 10px 0px 20px 0px;
 }
 .finished-task-text
 {

@@ -16,17 +16,19 @@
 
         {% if not subtasks %}
         {% if finished_subtasks %}
+        {% if not task.finished %}
         <div class="task-finished-task">
             <span class="task-finished-info">All subtasks has been finished. Do you want to mark the entire task as finished?</span>
-            <a href='#' class="btn btn-outline-success done-btn btn-sm" role="button">Done</a>
+            <a href='{{url_for("move_to_done", task_id=task.id)}}' class="btn btn-outline-success done-btn btn-sm" role="button">Done</a>
         </div>
+        {% endif %}
         {% endif %}
     {% endif %}
     </div>
     <div class="task-progress-bar">
         <div class="progress" style="height:25px;">
-            <div class="progress-bar bg-success " role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{percentage}}%">
-                {{percentage}}% Complete
+            <div class="progress-bar bg-success " role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{ task.percentage }}%">
+                {{ task.percentage }}% Complete
             </div>
         </div>
     </div>

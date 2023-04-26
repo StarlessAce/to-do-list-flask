@@ -2,13 +2,12 @@
 
 <div class="task-container">
   <div class="task-addition">
-
-            <h2>New task</h2>
+            <h2>Edit task</h2>
             <br>
             <form action="" method="post">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">Name of the task</span>
-                    <input type="text" name="title" class="form-control" placeholder="Your task" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="text" name="title" class="form-control" value="{{ task.text }}" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">
@@ -20,12 +19,12 @@
                         </div>
                     </span>
 
-                    <input type="text" name="description" class="form-control" id="description-text" placeholder="Description" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="text" name="description" class="form-control" id="description-text" value="{{ task.description }}"  aria-label="Username" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Priority</span>
                     <select class="form-select" name="priority" aria-label="">
-                      <option selected>Select priority</option>
+                      <option selected>{{ task.priority }}</option>
                       <option value="Low">Low</option>
                       <option value="Normal">Normal</option>
                       <option value="High">High</option>
@@ -35,7 +34,7 @@
                     <span class="input-group-text">Deadline</span>
                     <div class="col-5">
                       <div class="input-group date" id="datepicker">
-                        <input type="text" name="deadline" class="form-control" id="date"/>
+                        <input type="text" name="deadline" value="{{ task.deadline }}" class="form-control" id="date" disabled readonly>
                         <span class="input-group-append">
                           <span class="input-group-text bg-light d-block">
                             <i class="fa fa-calendar"></i>
@@ -44,7 +43,7 @@
                       </div>
                     </div>
                 </div>
-                <input class="btn btn-outline-success" type="submit" value="Add task">
+                <input class="btn btn-outline-success" type="submit" value="Edit task">
             </form>
 
   </div>

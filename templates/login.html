@@ -2,8 +2,13 @@
 
 {% include 'header.html' %}
 <div class="main-container">
-    <div class="row">
+  <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded login-area">
+
+
       <div class="col-lg-8 col-md-10 mx-auto content">
+        <div class="login-title">
+          LOG IN
+        </div>
         {% if error %}
         <p class=error><strong>Error:</strong> {{ error }}
         {% endif %}
@@ -14,9 +19,12 @@
         {% endfor %}
         {% endif %}
         {% endwith %}
+        <div class="login-form">
           {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        </div>
       </div>
-    </div>
+
+  </div>
 </div>
 
 {% include "footer.html" %}

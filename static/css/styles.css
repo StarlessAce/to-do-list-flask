@@ -4,15 +4,6 @@
   padding: 10px;
 }
 
-.main-container
-{
-  margin: auto;
-  margin-top: 100px;
-  width: 70%;
-  padding:50px;
-  padding-top: 2%;
-
-}
 
 .lista {
   margin: left right;
@@ -105,6 +96,41 @@ a {
 {
   cursor: pointer;
 }
+
+.login-area
+{
+    width: 40%;
+    margin: auto;
+    margin-top: 10%;
+}
+.login-form
+{
+    padding: 10px;
+    margin: auto;
+}
+
+.login-title
+{
+   text-align: center;
+}
+
+.main-container
+{
+  margin: auto;
+  margin-top: 100px;
+  width: 70%;
+  padding:50px;
+  padding-top: 2%;
+}
+
+
+.main-index
+{
+    padding-top: 120px;
+    padding-bottom: 60px;
+    background-color: #e9ecef;
+}
+
 
 .nav-item
 {

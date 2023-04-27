@@ -38,7 +38,7 @@ done_list = []
 
 
 class User(UserMixin, db.Model):
-    __tablename__ = "users"
+    __tablename__ = "Users"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(250), nullable=False)
     password = db.Column(db.String(250), nullable=False)
@@ -58,6 +58,8 @@ class Task(db.Model, Base):
     finish_date = db.Column(db.String(50), nullable=False)
     ontime = db.Column(db.Boolean, nullable=False)
     percentage = db.Column(db.Integer, nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    author = relationship('User', backref='task')
 
 
 class Subtask(db.Model, Base):
@@ -80,7 +82,7 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField("Your email", validators=[DataRequired()])
     password = PasswordField("password", validators=[DataRequired()])
-    submit = SubmitField("Let me in")
+    submit = SubmitField("Log in")
 
 
 with app.app_context():
@@ -138,11 +140,11 @@ def login():
         password = request.form.get('password')
         if not user:
             error = 'No such user in the database'
-            return render_template("login.html",form=form, error=error)
+            return render_template("login.html", form=form, error=error)
         elif check_password_hash(user.password, password):
             login_user(user)
             flash('You are successfully logged in!')
-            return redirect("/")
+            return redirect('/list')
         else:
             error = "Incorrect password"
     return render_template("login.html", form=form, error=error, current_user=current_user)
@@ -152,26 +154,22 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('get_all_tasks'))
+    return redirect(url_for('get_home_page'))
+
+@app.route('/list', methods=['GET', 'POST'])
+@login_required
+def get_all_tasks():
+    tasks = Task.query.all()
+    return render_template("list.html", tasks=tasks)
 
 
 @app.route('/', methods=['GET', 'POST'])
-def get_all_tasks():
-    if request.method == 'POST':
-        task = Task(
-            text=request.form['task'],
-            description='add task descpription',
-            priority=0,
-            deadline='not assigned',
-            status='Not started'
-        )
-        db.session.add(task)
-        db.session.commit()
-    tasks = Task.query.all()
-    return render_template("index.html", tasks=tasks, done=done_list)
+def get_home_page():
+    return render_template("index.html")
 
 
 @app.route("/delete/<int:task_id>")
+@login_required
 def delete_task(task_id):
     task_to_delete = Task.query.get(task_id)
     db.session.delete(task_to_delete)
@@ -181,6 +179,7 @@ def delete_task(task_id):
 
 
 @app.route("/delete/<int:subtask_id>&<int:task_id>")
+@login_required
 def delete_subtask(subtask_id, task_id):
     subtask_to_delete = Subtask.query.get(subtask_id)
     db.session.delete(subtask_to_delete)
@@ -192,6 +191,7 @@ def delete_subtask(subtask_id, task_id):
 
 
 @app.route("/mark_as_progress/<int:subtask_id>&<int:task_id>")
+@login_required
 def mark_as_progress(subtask_id, task_id):
     subtask = Subtask.query.get(subtask_id)
     orig_task = Task.query.get(task_id)
@@ -209,6 +209,7 @@ def mark_as_progress(subtask_id, task_id):
 
 
 @app.route("/done/<int:task_id>")
+@login_required
 def move_to_done(task_id):
     task = Task.query.get(task_id)
     now = datetime.datetime.now()
@@ -225,6 +226,7 @@ def move_to_done(task_id):
     return redirect(url_for('get_all_tasks'))
 
 @app.route("/done/<int:subtask_id>&<int:task_id>")
+@login_required
 def move_subtask_to_done(subtask_id, task_id):
     subtask = Subtask.query.get(subtask_id)
 
@@ -243,6 +245,7 @@ def move_subtask_to_done(subtask_id, task_id):
 
 
 @app.route("/new-task", methods=['GET', 'POST'])
+@login_required
 def new_task():
     if request.method == 'POST':
         now = datetime.datetime.now()
@@ -261,7 +264,9 @@ def new_task():
             start_date=start_date,
             finish_date='',
             ontime=False,
-            percentage=0
+            percentage=0,
+            author=current_user
+
         )
         db.session.add(task)
         db.session.commit()
@@ -270,6 +275,7 @@ def new_task():
 
 
 @app.route("/edit-task/<int:task_id>", methods=['GET', 'POST'])
+@login_required
 def edit_task(task_id):
     task = Task.query.get(task_id)
     if request.method == 'POST':
@@ -290,6 +296,7 @@ def edit_task(task_id):
 
 
 @app.route('/task/<int:task_id>', methods=['GET', 'POST'])
+@login_required
 def show_task(task_id):
     task = Task.query.get(task_id)
     if request.method == 'POST':

@@ -1,122 +1,41 @@
 {% include 'header.html' %}
 
-    <div class="main-container">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <p class="flash-message">{{ message }}</p>
-                {% endfor %}
-             {% endif %}
-        {% endwith %}
-        <div class="button-area">
-            <a href="{{url_for('new_task')}}" class="btn btn-outline-dark align-middle" role="button">New task</a>
-        </div>
 
-        <br>
-        <h2>Your current tasks:</h2>
-            <div class="lista">
-                 <table class="table table-hover table-light table-striped align-middle ">
-                        <thead class="table-dark">
-                            <tr>
-                              <th class="task-column" scope="col">Task</th>
-                              <th scope="col">Status</th>
-                              <th class="progress-column" scope="col">Progress</th>
-                              <th scope="col">Priority</th>
-                              <th scope="col">Deadline</th>
-                              <th scope="col"> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for task in tasks %}
-                                {% if not task.finished %}
-                                <tr onclick="window.location='{{url_for('show_task', task_id=task.id)}}'" class="list-pointer ">
-                                    <td class="align-center" height="90">
-                                        <div class="event-wrap">
-                                                <h4>{{ task.text }}</h4>
-                                                <div class="meta">
-                                                    <div class="organizers">
-                                                        {% if task.description == '' %}
-                                                        {% endif %}
-                                                        <p class="task-description">{{ task.description }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    </td>
-                                    <td>{{ task.status }}</td>
-                                    <td>
-                                        <div class="progress" style="height:25px;">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{ task.percentage }}%">
-                                                {{ task.percentage }}% Complete
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{{ task.priority }}</td>
-                                    <td>{{ task.deadline }}</td>
-                                    <td>
-                                        <a href='{{url_for("delete_task", task_id=task.id)}}' class="btn btn-outline-danger delete-btn"  role="button">Delete</a>
-                                        <a href='{{url_for("edit_task", task_id=task.id)}}' class="btn btn-primary delete-btn"  role="button">Edit</a>
-                                    </td>
-                                </tr>
-                                {% endif %}
-                            {% endfor %}
-                            <tr class="table-dark list-endline">
-                                <td colspan="6"></td>
-                            </tr>
+        <main role="main" class="main-index">
 
-                        </tbody>
-                    </table>
-
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+            <div class="jumbotron">
+            <div class="container">
+              <h1 class="display-3">Flask to-do-list</h1>
+              <p>Make your own to-do-list. Make your life easier.</p>
+              <p><a class="btn btn-primary btn-lg" href="{{ url_for('about') }}" role="button">Learn more &raquo;</a></p>
             </div>
-            <br>
-
-
-        <h2>Recently done tasks:</h2>
-            <div class="lista">
-                <table class="table table-hover table-borderless table-light align-middle">
-                    <thead>
-                        <tr class="table-dark" >
-                            <th>Task finished</th>
-                            <th>Date of issue</th>
-                            <th>Date of completion</th>
-                            <th>Status</th>
-                            <th>On time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for task in tasks %}
-                            {% if task.finished %}
-
-                            <tr onclick="window.location='{{url_for('show_task', task_id=task.id)}}'" class="list-pointer">
-                                <td class="align-bottom">
-                                    <div class="event-wrap">
-                                            <h5 class="text-success">{{ task.text }}</h5>
-                                            <div class="meta">
-                                                <div class="organizers">
-                                                    <p class="task-description">{{ task.description }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                </td>
-                                <td>{{ task.start_date }}</td>
-                                <td>{{ task.finish_date }} </td>
-                                <td>{{ task.status }}</td>
-                                <td>{{ task.ontime }}</td>
-                            </tr>
-                            {% else %}
-
-                            {% endif %}
-                    {% endfor %}
-                    <tr class="table-dark list-endline">
-                            <td colspan="5"></td>
-                    </tr>
-                    </tbody>
-                </table>
             </div>
+        </main>
+        <div class="container">
+                <!-- Example row of columns -->
+                <div class="row">
+                  <div class="col-md-4">
+                    <h2>Easy to use</h2>
+                    <p>This simple web application brings a lot of joy in organizing yourself in daily tasks. Add a task, subtask and see how your progress is heading finish</p>
+                    <p><a class="btn btn-secondary" href="{{ url_for('about') }}" role="button">View details &raquo;</a></p>
+                  </div>
+                  <div class="col-md-4">
+                    <h2>Always for free</h2>
+                    <p>The app itself is completely free of charge. Stay tuned for upgrade possibility in the near future. For now sit back, relax and focus on tasks.</p>
+                    <p><a class="btn btn-secondary" href="{{ url_for('about') }}" role="button">View details &raquo;</a></p>
+                  </div>
+                  <div class="col-md-4">
+                    <h2>Your own data and tasks storage</h2>
+                    <p>Once you've registered, all the tasks you create are held on your account. Keep it just for yourself or share it with your coworkers. </p>
+                    <p><a class="btn btn-secondary" href="{{ url_for('about') }}" role="button">View details &raquo;</a></p>
+                  </div>
+                </div>
 
+                <hr>
 
+        </div> <!-- /container -->
 
-
-    </div>
 
 
 {% include "footer.html" %}
